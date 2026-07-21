@@ -44,3 +44,5 @@ button{transition:transform .18s ease,background-color .18s ease,color .18s ease
 @media(max-width:1050px){.brand-logo{width:255px;height:72px}.header-main>.brand{min-width:265px}.hero-slider h1{font-size:48px}}
 @media(max-width:760px){.header-main{height:78px}.header-main>.search{top:109px}.brand-logo{width:230px;height:68px}.header-main>.brand{min-width:0}.hero-slider h1{white-space:normal}.hero-slogan{font-size:11px;letter-spacing:.7px;padding:8px 9px}.hero-language{font-size:15px;letter-spacing:1.4px}.brand-logo-footer{width:285px;height:auto}.footer-bottom span:first-child{line-height:1.6}}
 @media(max-width:390px){.brand-logo{width:205px;height:64px}.hero-slogan{font-size:9px;letter-spacing:.1px;padding:7px 5px}}
+html,body{max-width:100%;overflow-x:clip}.footer-credits{display:grid;gap:5px}.footer-credits span{display:block}
+@media(max-width:760px){main,header,nav,footer,section{max-width:100%}.header-main>*{min-width:0}.hero-slider .hero-copy{max-width:100%}.hero-slogan{width:100%;max-width:100%;text-align:center}.hero-text-art{max-width:100%;height:auto}.footer-bottom{max-width:100%;overflow-wrap:anywhere}.footer-credits{gap:7px}}
