@@ -3,6 +3,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Search, ShoppingBag, Heart, User, Menu, X, ArrowRight, Headphones, BookOpen, ShieldCheck, Download, Star, SlidersHorizontal, Grid2X2, List, ChevronRight, Play, Check, Library, LayoutDashboard, Package, Users, BarChart3 } from "lucide-react";
+import About from "./about";
 
 type Book = { id:number; slug:string; title:string; translated?:string; author:string; language:"English"|"Urdu"|"Balochi"|"Persian"; format:"PDF"|"EPUB"|"Audiobook"|"Print"; price:number; old?:number; rating:number; reviews:number; color:string; category:string; badge?:string; rtl?:boolean };
 
@@ -53,7 +54,7 @@ export default function Storefront(){
    </div>
    <nav className={menu?"open":""}><button className="nav-close" onClick={()=>setMenu(false)}><X/></button>{["All Books","Balochi","Urdu","Persian","English","eBooks","Audiobooks","New Releases","Best Sellers","Free Books","Authors"].map(x=><button key={x} onClick={()=>go(x==="All Books"?"catalog":x.toLowerCase().replaceAll(" ","-"))}>{x}</button>)}</nav>
   </header>
-  <main id="main">{view==="home"?<Home books={books} open={open} add={add} go={go}/>:view==="product"?<Product book={selected} add={add} open={open}/>:view==="cart"?<Cart cart={cart} setCart={setCart} go={go}/>:view==="library"?<LibraryView books={cart} open={open}/>:view==="account"?<Account go={go}/>:view==="admin"?<Admin/>:<Catalog title={view} books={catalogBooks} query={query} setQuery={setQuery} open={open} add={add}/>}</main>
+  <main id="main">{view==="home"?<Home books={books} open={open} add={add} go={go}/>:view==="product"?<Product book={selected} add={add} open={open}/>:view==="cart"?<Cart cart={cart} setCart={setCart} go={go}/>:view==="library"?<LibraryView books={cart} open={open}/>:view==="account"?<Account go={go}/>:view==="about-us"?<About/>:view==="admin"?<Admin/>:<Catalog title={view} books={catalogBooks} query={query} setQuery={setQuery} open={open} add={add}/>}</main>
   <Footer go={go}/>{menu&&<button className="scrim" onClick={()=>setMenu(false)} aria-label="Close menu"/>}{toast&&<div className="toast"><Check/> {toast}</div>}
  </div>
 }
