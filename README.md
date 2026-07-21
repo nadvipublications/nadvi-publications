@@ -1,4 +1,4 @@
-# Nadwi Publications
+# Nadvi Publications
 
 A responsive multilingual digital bookstore for English, Urdu, Balochi, and Persian books. The included storefront runs in demo mode with an interactive catalogue, product detail experience, persistent cart, simulated verified checkout, customer library, and administration dashboard.
 

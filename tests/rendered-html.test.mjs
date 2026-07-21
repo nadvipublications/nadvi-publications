@@ -1,3 +1,3 @@
 import test from "node:test";import assert from "node:assert/strict";import fs from "node:fs";
-test("storefront contains core commerce and multilingual surfaces",()=>{const html=fs.readFileSync("app/page.tsx","utf8");for(const text of ["NADWI PUBLICATIONS","مکتبہ ندوی","Shopping cart","My Digital Library","Publishing dashboard","Digital download"]){assert.ok(html.includes(text),`missing ${text}`)}});
+test("storefront contains core commerce and multilingual surfaces",()=>{const html=fs.readFileSync("app/page.tsx","utf8");for(const text of ["Nadvi Publications","مکتبہ ندوی","Shopping cart","My Digital Library","Publishing dashboard","Digital download"]){assert.ok(html.includes(text),`missing ${text}`)}});
 test("private master assets are constrained in schema",()=>{const sql=fs.readFileSync("db/schema.sql","utf8");assert.match(sql,/kind <> 'MASTER' OR is_public = false/);assert.match(sql,/event_id text UNIQUE/)});
