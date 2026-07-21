@@ -1,0 +1,2 @@
+import type { MetadataRoute } from "next";
+export default function sitemap():MetadataRoute.Sitemap{const base="https://nadwi.example";return ["","/books","/books/english","/books/urdu","/books/balochi","/books/persian","/ebooks","/audiobooks","/authors","/about","/contact","/faq"].map((path)=>({url:base+path,lastModified:new Date(),changeFrequency:path?"weekly":"daily",priority:path?.startsWith("/books")?.8:1}))}
