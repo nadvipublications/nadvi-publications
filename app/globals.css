@@ -23,3 +23,24 @@
 .language-strip .section-head .eyebrow{font-size:18px;line-height:1.3;font-weight:900;color:var(--burgundy)}
 .language-strip .section-head h2{font-size:44px;line-height:1.12;font-weight:900}
 @media(max-width:760px){.hero-slider .hero-slogan{font-size:14px;letter-spacing:1.4px}.hero-text-art,.hero-text-art-balochi,.hero-text-art-persian{width:100%;margin:20px 0 12px}.catalog-language-hero{margin:0 -16px}.catalog .catalog-language-hero{margin-top:0}.language-strip .section-head .eyebrow{font-size:15px}.language-strip .section-head h2{font-size:36px}}
+
+/* Storefront polish */
+.header-main{height:96px}.brand-logo{width:325px;height:88px}.header-main>.brand{min-width:335px}
+.hero-slider .hero-copy[dir=ltr]{max-width:900px}
+.hero-slider h1{max-width:none;white-space:nowrap}
+.hero-slogan{white-space:nowrap;max-width:none}
+.hero-language{font-size:17px;line-height:1.25;font-weight:900;letter-spacing:2px}
+.book-card{display:flex;flex-direction:column;height:100%}
+.book-card>.cover-button{flex:0 0 auto}
+.card-copy{display:flex;flex:1;flex-direction:column}
+.card-actions{margin-top:auto}
+.rtl,.rtl .title-link,.rtl .cover{font-family:"Traditional Arabic","Noto Naskh Arabic","Times New Roman",serif;font-weight:600}
+.footer-main>div:first-child{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
+.footer-brand{justify-content:flex-start;margin:0;min-width:0;width:100%}
+.brand-logo-footer{width:320px;height:auto;object-position:left center}
+.footer-main>div:first-child p{margin:12px 0 0;max-width:320px}
+button{transition:transform .18s ease,background-color .18s ease,color .18s ease,border-color .18s ease}
+@media(hover:hover){button:hover{position:relative;z-index:2;transform:scale(1.035)}.brand:hover,.cover-button:hover{transform:none}}
+@media(max-width:1050px){.brand-logo{width:255px;height:72px}.header-main>.brand{min-width:265px}.hero-slider h1{font-size:48px}}
+@media(max-width:760px){.header-main{height:78px}.header-main>.search{top:109px}.brand-logo{width:230px;height:68px}.header-main>.brand{min-width:0}.hero-slider h1{white-space:normal}.hero-slogan{font-size:11px;letter-spacing:.7px;padding:8px 9px}.hero-language{font-size:15px;letter-spacing:1.4px}.brand-logo-footer{width:285px;height:auto}.footer-bottom span:first-child{line-height:1.6}}
+@media(max-width:390px){.brand-logo{width:205px;height:64px}.hero-slogan{font-size:9px;letter-spacing:.1px;padding:7px 5px}}
