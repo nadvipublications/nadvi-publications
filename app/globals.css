@@ -34,7 +34,7 @@
 .book-card>.cover-button{flex:0 0 auto}
 .card-copy{display:flex;flex:1;flex-direction:column}
 .card-actions{margin-top:auto}
-.rtl,.rtl .title-link,.rtl .cover{font-family:"Traditional Arabic","Noto Naskh Arabic","Times New Roman",serif;font-weight:600}
+.rtl,.rtl button,.rtl input,.rtl select,.rtl h1,.rtl h2,.rtl h3,.rtl .title-link,.rtl .cover,[dir="rtl"],[dir="rtl"] button,[dir="rtl"] h1,[dir="rtl"] h2,[dir="rtl"] h3{font-family:Calibri,"Segoe UI",sans-serif;font-weight:600}
 .footer-main>div:first-child{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
 .footer-brand{justify-content:flex-start;margin:0;min-width:0;width:100%}
 .brand-logo-footer{width:320px;height:auto;object-position:left center}
