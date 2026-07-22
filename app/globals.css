@@ -32,12 +32,6 @@
 .hero-language{font-size:17px;line-height:1.25;font-weight:900;letter-spacing:2px}
 .book-card{display:flex;flex-direction:column;height:100%}
 .book-card>.cover-button{flex:0 0 auto}
-.cover.uploaded-cover{padding:0;box-shadow:0 10px 20px #23352c20;background:#eee}
-.cover.uploaded-cover:after{display:none}
-.cover.uploaded-cover img{display:block;width:100%;height:100%;object-fit:cover}
-.uploaded-book-details{margin:-55px max(4vw,calc((100vw - 1320px)/2)) 65px;padding:25px;border-top:1px solid var(--line);background:#f8f5ee}
-.uploaded-book-details p{max-width:850px;line-height:1.7;margin-top:0}
-.uploaded-book-details>div{display:flex;gap:28px;flex-wrap:wrap}.uploaded-book-details span{display:grid;font-size:13px}.uploaded-book-details b{font-size:11px;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
 .card-copy{display:flex;flex:1;flex-direction:column}
 .card-actions{margin-top:auto}
 .rtl,.rtl button,.rtl input,.rtl select,.rtl h1,.rtl h2,.rtl h3,.rtl .title-link,.rtl .cover,[dir="rtl"],[dir="rtl"] button,[dir="rtl"] h1,[dir="rtl"] h2,[dir="rtl"] h3{font-family:Calibri,"Segoe UI",sans-serif;font-weight:600}
