@@ -44,6 +44,8 @@
 .footer-main>div:first-child p{margin:12px 0 0;max-width:320px}
 button{transition:transform .18s ease,background-color .18s ease,color .18s ease,border-color .18s ease}
 @media(hover:hover){button:hover{position:relative;z-index:2;transform:scale(1.035)}.brand:hover,.cover-button:hover{transform:none}}
+.buy-panel>.primary:after,.mobile-buy>button:after{content:"WhatsApp for More Info"}
+.inquiry-modal>button:not(.inquiry-close){height:46px;border:0;background:#173f35;color:#fff;font-weight:800;padding:0 28px;margin-top:10px}
 @media(max-width:1050px){.brand-logo{width:255px;height:72px}.header-main>.brand{min-width:265px}.hero-slider h1{font-size:48px}}
 @media(max-width:760px){.header-main{height:78px}.header-main>.search{top:109px}.brand-logo{width:230px;height:68px}.header-main>.brand{min-width:0}.hero-slider h1{white-space:normal}.hero-slogan{font-size:11px;letter-spacing:.7px;padding:8px 9px}.hero-language{font-size:15px;letter-spacing:1.4px}.brand-logo-footer{width:285px;height:auto}.footer-bottom span:first-child{line-height:1.6}}
 @media(max-width:390px){.brand-logo{width:205px;height:64px}.hero-slogan{font-size:9px;letter-spacing:.1px;padding:7px 5px}}
