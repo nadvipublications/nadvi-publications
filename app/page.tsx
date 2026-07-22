@@ -7,7 +7,11 @@ import About from "./about";
 import InquiryModal from "./inquiry-modal";
 import SubmitBook from "./submit-book";
 
-type Book = { id:number; slug:string; title:string; translated?:string; author:string; language:"English"|"Urdu"|"Balochi"|"Persian"; format:"PDF"|"EPUB"|"Audiobook"|"Print"; price:number; old?:number; rating:number; reviews:number; color:string; category:string; badge?:string; rtl?:boolean };
+type Book = { id:number; slug:string; title:string; translated?:string; author:string; language:"English"|"Urdu"|"Balochi"|"Persian"; format:"PDF"|"EPUB"|"Audiobook"|"Print"; price:number; old?:number; rating:number; reviews:number; color:string; category:string; badge?:string; rtl?:boolean; coverImage?:string; description?:string; publishedYear?:number; pages?:number };
+
+const newBooks: Omit<Book,"id"|"slug">[] = [
+ {title:"All India Baloch Conference",translated:"آل انڈیا بلوچ کانفرنس",author:"Jamal Abdul Nasir",language:"Urdu",format:"PDF",price:3.99,old:5,rating:5,reviews:0,color:"#082f30",category:"Urdu Books",badge:"NEW",coverImage:"/all-india-baloch-conference.png",description:"This book explores the origins of modern Baloch political consciousness through the history of the All India Baloch Conference of the 1930s. It examines the movement’s leadership, landmark conferences, constitutional demands, commitment to education and women’s rights, opposition to colonial and tribal oppression, and the role of nationalist journalism. Drawing upon historical records and additional research, the book offers an accessible account of a formative yet often overlooked chapter in the political history of Balochistan.",publishedYear:2026,pages:155},
+];
 
 const base: Omit<Book,"id"|"slug">[] = [
  {title:"The Quiet Minaret",author:"Samir Rahman",language:"English",format:"EPUB",price:8.99,old:12.99,rating:4.8,reviews:128,color:"#173f35",category:"Literature",badge:"BEST SELLER"},
@@ -27,10 +31,10 @@ const base: Omit<Book,"id"|"slug">[] = [
  {title:"قصه‌های کوچک",translated:"Little Stories",author:"مینا سروش",language:"Persian",format:"Audiobook",price:7.49,rating:4.9,reviews:112,color:"#34566b",category:"Children's Books",badge:"NEW",rtl:true},
  {title:"آواز کلمات",translated:"The Voice of Words",author:"فرهاد مهر",language:"Persian",format:"EPUB",price:0,rating:4.6,reviews:31,color:"#5b573a",category:"Poetry",badge:"FREE",rtl:true},
 ];
-const books: Book[] = [...base,...base].map((b,i)=>({...b,id:i+1,slug:`${b.language.toLowerCase()}-${i+1}`, ...(i>=16?{title:b.title+(b.rtl?"، جلد دوم":" Volume II"),badge:i%4===0?"NEW":undefined}: {})}));
+const books: Book[] = [...newBooks,...base,...base].map((b,i)=>({...b,id:i+1,slug:i<newBooks.length?"all-india-baloch-conference":`${b.language.toLowerCase()}-${i}`, ...(i>=newBooks.length+base.length?{title:b.title+(b.rtl?"، جلد دوم":" Volume II"),badge:i%4===0?"NEW":undefined}: {})}));
 const money=(n:number)=>n===0?"Free":`$${n.toFixed(2)}`;
 
-function Cover({book,large=false}:{book:Book;large?:boolean}){return <div className={`cover ${large?"cover-large":""}`} style={{background:book.color}} dir={book.rtl?"rtl":"ltr"}><span className="cover-mark">NP</span><div><b>{book.title}</b>{book.translated&&<small>{book.translated}</small>}<em>{book.author}</em></div></div>}
+function Cover({book,large=false}:{book:Book;large?:boolean}){return <>{<div className={`cover ${large?"cover-large":""} ${book.coverImage?"real-cover":""}`} style={{background:book.color}} dir={book.rtl?"rtl":"ltr"}>{book.coverImage?<img src={book.coverImage} alt={`${book.title} book cover`}/>:<><span className="cover-mark">NP</span><div><b>{book.title}</b>{book.translated&&<small>{book.translated}</small>}<em>{book.author}</em></div></>}</div>}{large&&book.description&&<div className="book-facts"><p>{book.description}</p><dl>{book.publishedYear&&<><dt>Published</dt><dd>{book.publishedYear}</dd></>}{book.pages&&<><dt>Pages</dt><dd>{book.pages}</dd></>}</dl></div>}</>}
 // The animated GIF must remain a native image so all 72 frames are preserved.
 function BrandLogo({variant="default"}:{variant?:"default"|"footer"|"admin"}){return <img className={`brand-logo brand-logo-${variant}`} src="/nadvi-publications-logo-new.png" alt="Nadvi Publications - مکتبہ ندوی" width="1770" height="545"/>}
 function Stars({book}:{book:Book}){return <span className="rating" aria-label={`${book.rating} out of 5 stars`}><Star size={14} fill="currentColor"/> {book.rating} <small>({book.reviews})</small></span>}
