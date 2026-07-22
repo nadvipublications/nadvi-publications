@@ -2,8 +2,9 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useEffect, useMemo, useState } from "react";
-import { Search, ShoppingBag, Heart, User, Menu, X, ArrowRight, Headphones, BookOpen, ShieldCheck, Download, Star, SlidersHorizontal, Grid2X2, List, ChevronRight, Play, Check, Library, LayoutDashboard, Package, Users, BarChart3 } from "lucide-react";
+import { Search, ShoppingBag, Heart, User, Menu, X, ArrowRight, Headphones, BookOpen, ShieldCheck, Download, Star, SlidersHorizontal, Grid2X2, List, ChevronRight, Play, Check, Library, LayoutDashboard, Package, Users, BarChart3, MessageCircle } from "lucide-react";
 import About from "./about";
+import InquiryModal from "./inquiry-modal";
 
 type Book = { id:number; slug:string; title:string; translated?:string; author:string; language:"English"|"Urdu"|"Balochi"|"Persian"; format:"PDF"|"EPUB"|"Audiobook"|"Print"; price:number; old?:number; rating:number; reviews:number; color:string; category:string; badge?:string; rtl?:boolean };
 
@@ -32,16 +33,16 @@ function Cover({book,large=false}:{book:Book;large?:boolean}){return <div classN
 // The animated GIF must remain a native image so all 72 frames are preserved.
 function BrandLogo({variant="default"}:{variant?:"default"|"footer"|"admin"}){const src=variant==="footer"?"/nadvi-publications-logo-transparent.png":"/nadvi-publications-logo.gif";return <img className={`brand-logo brand-logo-${variant}`} src={src} alt="Nadvi Publications - مکتبہ ندوی" width="900" height="378"/>}
 function Stars({book}:{book:Book}){return <span className="rating" aria-label={`${book.rating} out of 5 stars`}><Star size={14} fill="currentColor"/> {book.rating} <small>({book.reviews})</small></span>}
-function BookCard({book,onOpen,onAdd}:{book:Book;onOpen:(b:Book)=>void;onAdd:(b:Book)=>void}){return <article className="book-card"><button className="wish" aria-label={`Add ${book.title} to wishlist`}><Heart size={18}/></button><button className="cover-button" onClick={()=>onOpen(book)}><Cover book={book}/></button><div className="card-copy">{book.badge&&<span className={`badge ${book.badge==="FREE"?"free":""}`}>{book.badge}</span>}<button className="title-link" onClick={()=>onOpen(book)} dir={book.rtl?"rtl":"ltr"}>{book.title}</button><p>{book.author}</p><div className="meta"><span>{book.language}</span><span>{book.format}</span></div><Stars book={book}/><div className="price"><strong>{money(book.price)}</strong>{book.old&&<del>{money(book.old)}</del>}</div><div className="card-actions"><button className="icon-btn" aria-label="Preview book"><BookOpen size={17}/></button><button className="add" onClick={()=>onAdd(book)}>Add to cart</button></div></div></article>}
+function BookCard({book,onOpen,onAdd}:{book:Book;onOpen:(b:Book)=>void;onAdd:(b:Book)=>void}){return <article className="book-card"><button className="wish" aria-label={`Add ${book.title} to wishlist`}><Heart size={18}/></button><button className="cover-button" onClick={()=>onOpen(book)}><Cover book={book}/></button><div className="card-copy">{book.badge&&<span className={`badge ${book.badge==="FREE"?"free":""}`}>{book.badge}</span>}<button className="title-link" onClick={()=>onOpen(book)} dir={book.rtl?"rtl":"ltr"}>{book.title}</button><p>{book.author}</p><div className="meta"><span>{book.language}</span><span>{book.format}</span></div><Stars book={book}/><div className="price"><strong>{money(book.price)}</strong>{book.old&&<del>{money(book.old)}</del>}</div><div className="card-actions"><button className="icon-btn" onClick={()=>onOpen(book)} aria-label={`View details for ${book.title}`}><BookOpen size={17}/></button><button className="whatsapp-btn" onClick={()=>onAdd(book)}><MessageCircle size={17}/> Ask on WhatsApp</button></div></div></article>}
 
 export default function Storefront(){
- const [view,setView]=useState("home"),[selected,setSelected]=useState<Book>(books[0]),[cart,setCart]=useState<Book[]>([]),[query,setQuery]=useState(""),[lang,setLang]=useState("EN"),[menu,setMenu]=useState(false),[toast,setToast]=useState("");
+ const [view,setView]=useState("home"),[selected,setSelected]=useState<Book>(books[0]),[cart,setCart]=useState<Book[]>([]),[query,setQuery]=useState(""),[lang,setLang]=useState("EN"),[menu,setMenu]=useState(false),[inquiry,setInquiry]=useState<Book|null>(null);
  useEffect(()=>{const saved=localStorage.getItem("nadvi-cart");if(saved)setTimeout(()=>setCart(JSON.parse(saved)),0)},[]);
  useEffect(()=>{localStorage.setItem("nadvi-cart",JSON.stringify(cart))},[cart]);
  const rtl=lang!=="EN";
  const go=(v:string)=>{setView(v);setMenu(false);window.scrollTo({top:0,behavior:"smooth"})};
  const open=(b:Book)=>{setSelected(b);go("product")};
- const add=(b:Book)=>{if(!cart.some(x=>x.id===b.id)){setCart([...cart,b]);setToast(`${b.title} added to cart`);setTimeout(()=>setToast(""),2200)}else{setToast("Already in your cart");setTimeout(()=>setToast(""),2200)}};
+ const add=(b:Book)=>setInquiry(b);
  const filtered=useMemo(()=>books.filter(b=>(b.title+b.translated+b.author+b.language+b.category).toLowerCase().includes(query.toLowerCase())),[query]);
  const catalogBooks=useMemo(()=>{const language=(["english","urdu","balochi","persian"] as const).find(x=>x===view);if(language)return filtered.filter(b=>b.language.toLowerCase()===language);if(view==="ebooks")return filtered.filter(b=>b.format==="EPUB"||b.format==="PDF");if(view==="audiobooks")return filtered.filter(b=>b.format==="Audiobook");if(view==="new-releases")return filtered.filter(b=>b.badge==="NEW");if(view==="best-sellers")return filtered.filter(b=>b.badge==="BEST SELLER");if(view==="free-books")return filtered.filter(b=>b.price===0);return filtered},[filtered,view]);
  return <div dir={rtl?"rtl":"ltr"} className={rtl?"rtl":""}>
@@ -50,12 +51,12 @@ export default function Storefront(){
   <header>
    <div className="header-main"><button className="mobile-menu" onClick={()=>setMenu(true)} aria-label="Open menu"><Menu/></button><button className="brand" onClick={()=>go("home")} aria-label="Nadvi Publications home"><BrandLogo/></button>
     <div className="search"><select aria-label="Search category"><option>All books</option><option>eBooks</option><option>Audiobooks</option></select><input value={query} onChange={e=>setQuery(e.target.value)} onFocus={()=>query&&go("catalog")} onKeyDown={e=>e.key==="Enter"&&go("catalog")} placeholder="Search titles, authors, ISBN..."/><button onClick={()=>go("catalog")} aria-label="Search"><Search/></button>{query&&view!=="catalog"&&<div className="suggestions">{filtered.slice(0,4).map(b=><button key={b.id} onClick={()=>open(b)}><span className="mini-cover" style={{background:b.color}}/><span><b>{b.title}</b><small>{b.author} · {b.format}</small></span></button>)}</div>}</div>
-    <div className="header-tools"><select value={lang} onChange={e=>setLang(e.target.value)} aria-label="Interface language"><option>EN</option><option>اردو</option><option>فارسی</option><option>بلوچی</option></select><select aria-label="Currency"><option>USD</option><option>AED</option><option>GBP</option><option>EUR</option><option>PKR</option></select><button onClick={()=>go("account")}><User/><small>Account</small></button><button onClick={()=>go("library")}><Library/><small>Library</small></button><button onClick={()=>go("cart")} className="cart-tool"><ShoppingBag/><i>{cart.length}</i><small>Cart</small></button></div>
+    <div className="header-tools"><select value={lang} onChange={e=>setLang(e.target.value)} aria-label="Interface language"><option>EN</option><option>اردو</option><option>فارسی</option><option>بلوچی</option></select><select aria-label="Currency"><option>USD</option><option>AED</option><option>GBP</option><option>EUR</option><option>PKR</option></select><button onClick={()=>go("account")}><User/><small>Account</small></button><button onClick={()=>go("library")}><Library/><small>Library</small></button></div>
    </div>
-   <nav className={menu?"open":""}><button className="nav-close" onClick={()=>setMenu(false)}><X/></button>{["All Books","Balochi","Urdu","Persian","English","eBooks","Audiobooks","New Releases","Best Sellers","Free Books","Authors"].map(x=><button key={x} onClick={()=>go(x==="All Books"?"catalog":x.toLowerCase().replaceAll(" ","-"))}>{x}</button>)}</nav>
+   <nav className={menu?"open":""}><button className="nav-close" onClick={()=>setMenu(false)}><X/></button>{["Home","All Books","Balochi","Urdu","Persian","English","eBooks","Audiobooks","New Releases","Best Sellers","Free Books","Authors"].map(x=><button key={x} onClick={()=>go(x==="Home"?"home":x==="All Books"?"catalog":x.toLowerCase().replaceAll(" ","-"))}>{x}</button>)}</nav>
   </header>
   <main id="main">{view==="home"?<Home books={books} open={open} add={add} go={go}/>:view==="product"?<Product book={selected} add={add} open={open}/>:view==="cart"?<Cart cart={cart} setCart={setCart} go={go}/>:view==="library"?<LibraryView books={cart} open={open}/>:view==="account"?<Account go={go}/>:view==="about-us"?<About/>:view==="admin"?<Admin/>:<Catalog title={view} books={catalogBooks} query={query} setQuery={setQuery} open={open} add={add}/>}</main>
-  <Footer go={go}/>{menu&&<button className="scrim" onClick={()=>setMenu(false)} aria-label="Close menu"/>}{toast&&<div className="toast"><Check/> {toast}</div>}
+  <Footer go={go}/>{menu&&<button className="scrim" onClick={()=>setMenu(false)} aria-label="Close menu"/>}{inquiry&&<InquiryModal book={inquiry} onClose={()=>setInquiry(null)}/>}
  </div>
 }
 
@@ -70,7 +71,6 @@ function LanguageHero({language,go,catalog=false}:{language:HeroLanguage;go?:(v:
 
 function Home({books,open,add,go}:{books:Book[];open:(b:Book)=>void;add:(b:Book)=>void;go:(v:string)=>void}){return <>
  <LanguageHero language="Balochi" go={go}/>
- <section className="language-strip"><div className="section-head"><div><span className="eyebrow">EXPLORE THE COLLECTION</span><h2>Shop by language</h2></div></div><div className="language-grid">{[["بلوچی کتابیں","زبان و ثقافت کی آوازیں","Balochi"],["اردو کتابیں","علم، ادب اور تہذیب کا انتخاب","Urdu"],["کتاب‌های فارسی","ادبیات، تاریخ و اندیشه","Persian"],["English Books","Discover contemporary and classic works","English"]].map((l,i)=><button key={l[2]} onClick={()=>go(l[2].toLowerCase())} className={`lang-card l${i}`} dir={l[2]==="English"?"ltr":"rtl"}><span>{String(i+1).padStart(2,"0")}</span><div><h3>{l[0]}</h3><p>{l[1]}</p></div><ArrowRight/></button>)}</div></section>
  <Shelf title="Editor's selection" eyebrow="FEATURED BOOKS" books={books.slice(0,5)} open={open} add={add} go={go}/>
  <section className="quote-band"><blockquote>“A language carries more than words. It carries the memory of a people.”</blockquote><p>Our publishing programme brings essential scholarship and beautiful storytelling to readers everywhere.</p></section>
  <Shelf title="New releases" eyebrow="FRESH FROM THE PRESS" books={books.filter(b=>b.badge==="NEW").slice(0,5)} open={open} add={add} go={go}/>
