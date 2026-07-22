@@ -6,8 +6,9 @@ import { Search, ShoppingBag, Heart, User, Menu, X, ArrowRight, Headphones, Book
 import About from "./about";
 import InquiryModal from "./inquiry-modal";
 import SubmitBook from "./submit-book";
+import uploadedBooksData from "../data/uploaded-books.json";
 
-type Book = { id:number; slug:string; title:string; translated?:string; author:string; language:"English"|"Urdu"|"Balochi"|"Persian"; format:"PDF"|"EPUB"|"Audiobook"|"Print"; price:number; old?:number; rating:number; reviews:number; color:string; category:string; badge?:string; rtl?:boolean };
+type Book = { id:number; slug:string; title:string; translated?:string; author:string; language:"English"|"Urdu"|"Balochi"|"Persian"|"Arabic"; format:"PDF"|"EPUB"|"Audiobook"|"Print"; price:number; old?:number; rating:number; reviews:number; color:string; category:string; badge?:string; rtl?:boolean; coverImage?:string; description?:string; publishedYear?:number; pages?:number; isbn?:string };
 
 const base: Omit<Book,"id"|"slug">[] = [
  {title:"The Quiet Minaret",author:"Samir Rahman",language:"English",format:"EPUB",price:8.99,old:12.99,rating:4.8,reviews:128,color:"#173f35",category:"Literature",badge:"BEST SELLER"},
@@ -27,14 +28,17 @@ const base: Omit<Book,"id"|"slug">[] = [
  {title:"قصه‌های کوچک",translated:"Little Stories",author:"مینا سروش",language:"Persian",format:"Audiobook",price:7.49,rating:4.9,reviews:112,color:"#34566b",category:"Children's Books",badge:"NEW",rtl:true},
  {title:"آواز کلمات",translated:"The Voice of Words",author:"فرهاد مهر",language:"Persian",format:"EPUB",price:0,rating:4.6,reviews:31,color:"#5b573a",category:"Poetry",badge:"FREE",rtl:true},
 ];
-const books: Book[] = [...base,...base].map((b,i)=>({...b,id:i+1,slug:`${b.language.toLowerCase()}-${i+1}`, ...(i>=16?{title:b.title+(b.rtl?"، جلد دوم":" Volume II"),badge:i%4===0?"NEW":undefined}: {})}));
+const demoBooks: Book[] = [...base,...base].map((b,i)=>({...b,id:i+1,slug:`${b.language.toLowerCase()}-${i+1}`, ...(i>=16?{title:b.title+(b.rtl?"، جلد دوم":" Volume II"),badge:i%4===0?"NEW":undefined}: {})}));
+const uploadedBooks = (uploadedBooksData as Omit<Book,"id">[]).map((book,i)=>({...book,id:1000+i})) as Book[];
+const books: Book[] = [...uploadedBooks,...demoBooks];
 const money=(n:number)=>n===0?"Free":`$${n.toFixed(2)}`;
 
-function Cover({book,large=false}:{book:Book;large?:boolean}){return <div className={`cover ${large?"cover-large":""}`} style={{background:book.color}} dir={book.rtl?"rtl":"ltr"}><span className="cover-mark">NP</span><div><b>{book.title}</b>{book.translated&&<small>{book.translated}</small>}<em>{book.author}</em></div></div>}
+function Cover({book,large=false}:{book:Book;large?:boolean}){return <div className={`cover ${large?"cover-large":""} ${book.coverImage?"uploaded-cover":""}`} style={{background:book.color}} dir={book.rtl?"rtl":"ltr"}>{book.coverImage?<img src={book.coverImage} alt={`${book.title} book cover`}/>:<><span className="cover-mark">NP</span><div><b>{book.title}</b>{book.translated&&<small>{book.translated}</small>}<em>{book.author}</em></div></>}</div>}
 // The animated GIF must remain a native image so all 72 frames are preserved.
 function BrandLogo({variant="default"}:{variant?:"default"|"footer"|"admin"}){return <img className={`brand-logo brand-logo-${variant}`} src="/nadvi-publications-logo-new.png" alt="Nadvi Publications - مکتبہ ندوی" width="1770" height="545"/>}
 function Stars({book}:{book:Book}){return <span className="rating" aria-label={`${book.rating} out of 5 stars`}><Star size={14} fill="currentColor"/> {book.rating} <small>({book.reviews})</small></span>}
 function BookCard({book,onOpen,onAdd}:{book:Book;onOpen:(b:Book)=>void;onAdd:(b:Book)=>void}){return <article className="book-card"><button className="wish" aria-label={`Add ${book.title} to wishlist`}><Heart size={18}/></button><button className="cover-button" onClick={()=>onOpen(book)}><Cover book={book}/></button><div className="card-copy">{book.badge&&<span className={`badge ${book.badge==="FREE"?"free":""}`}>{book.badge}</span>}<button className="title-link" onClick={()=>onOpen(book)} dir={book.rtl?"rtl":"ltr"}>{book.title}</button><p>{book.author}</p><div className="meta"><span>{book.language}</span><span>{book.format}</span></div><Stars book={book}/><div className="price"><strong>{money(book.price)}</strong>{book.old&&<del>{money(book.old)}</del>}</div><div className="card-actions"><button className="icon-btn" onClick={()=>onOpen(book)} aria-label={`View details for ${book.title}`}><BookOpen size={17}/></button><button className="whatsapp-btn" onClick={()=>onAdd(book)}><MessageCircle size={17}/> Ask on WhatsApp</button></div></div></article>}
+function UploadedBookDetails({book}:{book:Book}){if(!book.description)return null;return <section className="uploaded-book-details" dir={book.rtl?"rtl":"ltr"}><p>{book.description}</p><div>{book.publishedYear&&<span><b>Published</b>{book.publishedYear}</span>}{book.pages&&<span><b>Pages</b>{book.pages}</span>}{book.isbn&&<span><b>ISBN</b>{book.isbn}</span>}</div></section>}
 
 export default function Storefront(){
  const [view,setView]=useState("home"),[selected,setSelected]=useState<Book>(books[0]),[cart,setCart]=useState<Book[]>([]),[query,setQuery]=useState(""),[lang,setLang]=useState("EN"),[menu,setMenu]=useState(false),[inquiry,setInquiry]=useState<Book|null>(null);
@@ -45,7 +49,7 @@ export default function Storefront(){
  const open=(b:Book)=>{setSelected(b);go("product")};
  const add=(b:Book)=>setInquiry(b);
  const filtered=useMemo(()=>books.filter(b=>(b.title+b.translated+b.author+b.language+b.category).toLowerCase().includes(query.toLowerCase())),[query]);
- const catalogBooks=useMemo(()=>{const language=(["english","urdu","balochi","persian"] as const).find(x=>x===view);if(language)return filtered.filter(b=>b.language.toLowerCase()===language);if(view==="ebooks")return filtered.filter(b=>b.format==="EPUB"||b.format==="PDF");if(view==="audiobooks")return filtered.filter(b=>b.format==="Audiobook");if(view==="new-releases")return filtered.filter(b=>b.badge==="NEW");if(view==="best-sellers")return filtered.filter(b=>b.badge==="BEST SELLER");if(view==="free-books")return filtered.filter(b=>b.price===0);return filtered},[filtered,view]);
+ const catalogBooks=useMemo(()=>{const language=(["english","urdu","balochi","persian","arabic"] as const).find(x=>x===view);if(language)return filtered.filter(b=>b.language.toLowerCase()===language);if(view==="ebooks")return filtered.filter(b=>b.format==="EPUB"||b.format==="PDF");if(view==="audiobooks")return filtered.filter(b=>b.format==="Audiobook");if(view==="new-releases")return filtered.filter(b=>b.badge==="NEW");if(view==="best-sellers")return filtered.filter(b=>b.badge==="BEST SELLER");if(view==="free-books")return filtered.filter(b=>b.price===0);return filtered},[filtered,view]);
  return <div dir={rtl?"rtl":"ltr"} className={rtl?"rtl":""}>
   <a className="skip" href="#main">Skip to content</a>
   <header>
@@ -55,7 +59,7 @@ export default function Storefront(){
    </div>
    <nav className={menu?"open":""}><button className="nav-close" onClick={()=>setMenu(false)}><X/></button>{["Home","All Books","Balochi","Urdu","Persian","Arabic","English","eBooks","Audiobooks","New Releases","Best Sellers","Free Books","Authors","Submit a Book"].map(x=><button key={x} onClick={()=>go(x==="Home"?"home":x==="All Books"?"catalog":x.toLowerCase().replaceAll(" ","-"))}>{x}</button>)}</nav>
   </header>
-  <main id="main">{view==="home"?<Home books={books} open={open} add={add} go={go}/>:view==="product"?<Product book={selected} add={add} open={open}/>:view==="cart"?<Cart cart={cart} setCart={setCart} go={go}/>:view==="library"?<LibraryView books={cart} open={open}/>:view==="account"?<Account go={go}/>:view==="about-us"?<About/>:view==="submit-a-book"?<SubmitBook/>:view==="admin"?<Admin/>:<Catalog title={view} books={catalogBooks} query={query} setQuery={setQuery} open={open} add={add}/>}</main>
+  <main id="main">{view==="home"?<Home books={books} open={open} add={add} go={go}/>:view==="product"?<><Product book={selected} add={add} open={open}/><UploadedBookDetails book={selected}/></>:view==="cart"?<Cart cart={cart} setCart={setCart} go={go}/>:view==="library"?<LibraryView books={cart} open={open}/>:view==="account"?<Account go={go}/>:view==="about-us"?<About/>:view==="submit-a-book"?<SubmitBook/>:view==="admin"?<Admin/>:<Catalog title={view} books={catalogBooks} query={query} setQuery={setQuery} open={open} add={add}/>}</main>
   <Footer go={go}/>{menu&&<button className="scrim" onClick={()=>setMenu(false)} aria-label="Close menu"/>}{inquiry&&<InquiryModal book={inquiry} onClose={()=>setInquiry(null)}/>}
  </div>
 }
