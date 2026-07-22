@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { MessageCircle, Send, X } from "lucide-react";
 
 type InquiryBook = {
@@ -12,6 +12,12 @@ type InquiryBook = {
 export default function InquiryModal({ book, onClose }: { book: InquiryBook; onClose: () => void }) {
   const [contact, setContact] = useState("");
 
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => event.key === "Escape" && onClose();
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [onClose]);
+
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const message = `Hello Nadvi Publications, I am interested in "${book.title}" by ${book.author} (${book.language}). My email or WhatsApp number is: ${contact}. Please send me the full details.`;
@@ -20,8 +26,8 @@ export default function InquiryModal({ book, onClose }: { book: InquiryBook; onC
   };
 
   return (
-    <div className="inquiry-backdrop" role="presentation" onMouseDown={event => event.target === event.currentTarget && onClose()}>
-      <section className="inquiry-modal" role="dialog" aria-modal="true" aria-labelledby="inquiry-title">
+    <div className="inquiry-backdrop" role="presentation" onClick={onClose}>
+      <section className="inquiry-modal" role="dialog" aria-modal="true" aria-labelledby="inquiry-title" onClick={event => event.stopPropagation()}>
         <button className="inquiry-close" onClick={onClose} aria-label="Close inquiry"><X /></button>
         <MessageCircle className="inquiry-mark" />
         <span className="eyebrow">BOOK INQUIRY</span>
@@ -29,7 +35,7 @@ export default function InquiryModal({ book, onClose }: { book: InquiryBook; onC
         <p><strong>{book.title}</strong><br />Share your email address or WhatsApp number and we will send you the full details.</p>
         <form onSubmit={submit}>
           <label htmlFor="inquiry-contact">Email address or WhatsApp number</label>
-          <input id="inquiry-contact" value={contact} onChange={event => setContact(event.target.value)} required autoFocus placeholder="you@example.com or +92..." />
+          <input id="inquiry-contact" value={contact} onChange={event => setContact(event.target.value)} required placeholder="you@example.com or +92..." />
           <button type="submit"><Send /> Continue to WhatsApp</button>
         </form>
       </section>
