@@ -37,7 +37,6 @@ export default function JamalUlQuranPage() {
         <div className={styles.logoPanel}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img className={styles.appLogo} src="/jamal-ul-quran-logo.svg" width="333" height="247" alt="جمال القرآن — Jamal ul Quran" fetchPriority="high" />
-          
         </div>
         <div className={styles.copy}>
           <span className={styles.eyebrow}>The Holy Qur&apos;an Translation in Your Own Language</span>
@@ -52,6 +51,7 @@ export default function JamalUlQuranPage() {
             <img className={styles.playLogo} src="/google-play-prism.svg" width="34" height="34" alt="" aria-hidden="true" />
           </a>
           <p className={styles.installNote} lang="en" dir="ltr">Tap the button above to install the app.</p>
+          <p className={styles.projectCredit} lang="en" dir="ltr">A Project of Nadvi Publications</p>
         </div>
       </div>
       <section className={styles.features} aria-label="App features">

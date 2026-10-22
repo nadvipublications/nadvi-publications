@@ -8,3 +8,5 @@
 .features article{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:12px}.features article>svg{display:block;align-self:center;margin:0}.features article>p{text-align:center;margin:0}.download{cursor:pointer}
 
 .appLogo{max-width:385px}@media(max-width:800px){.appLogo{max-width:264px}}@media(max-width:420px){.appLogo{max-width:237px}}
+
+.projectCredit{max-width:390px;margin:18px 0 0;text-align:center;font-size:14px;font-weight:600;line-height:1.7;color:var(--green)}@media(max-width:800px){.projectCredit{margin-left:auto;margin-right:auto}}
