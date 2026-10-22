@@ -37,7 +37,7 @@ export default function JamalUlQuranPage() {
         <div className={styles.logoPanel}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img className={styles.appLogo} src="/jamal-ul-quran-logo.svg" width="333" height="247" alt="جمال القرآن — Jamal ul Quran" fetchPriority="high" />
-          <span className={styles.publisher}>NADVI PUBLICATIONS · مکتبہ ندوی</span>
+          <span className={styles.publisher}><span lang="en">NADVI PUBLICATIONS</span> · <span lang="ur" dir="rtl">مکتبہ ندوی</span></span>
         </div>
         <div className={styles.copy}>
           <span className={styles.eyebrow}>The Holy Qur&apos;an Translation in Your Own Language</span>
@@ -48,8 +48,10 @@ export default function JamalUlQuranPage() {
           <a className={styles.download} href={playUrl}>
             <Download size={23} aria-hidden="true" />
             <span><strong lang="ur" dir="rtl">Google Play سے ڈاؤنلوڈ کریں</strong><small>Get it on Google Play · Android</small></span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className={styles.playLogo} src="/google-play-prism.svg" width="34" height="34" alt="" aria-hidden="true" />
           </a>
-          <p className={styles.installNote} lang="ur" dir="rtl">ایپ انسٹال کرنے کے لیے اوپر کا بٹن دبائیں۔</p>
+          <p className={styles.installNote} lang="en" dir="ltr">Tap the button above to install the app.</p>
         </div>
       </div>
       <section className={styles.features} aria-label="App features">
