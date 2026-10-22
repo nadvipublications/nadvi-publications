@@ -4,6 +4,6 @@ export default function QuranAppLink() {
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img src="/jamal-ul-quran-logo.svg" width="125" height="93" alt="Jamal ul Quran app logo" />
     <div><strong>Jamal ul Quran<br />Balochi Rajank</strong><p>The Holy Quran with Balochi Translation now available on Google Play Store, Click to Download</p></div>
-    <span>Explore the app â†’</span>
+    <span>Download the app →</span>
   </a>;
 }
