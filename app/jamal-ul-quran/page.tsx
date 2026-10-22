@@ -55,9 +55,9 @@ export default function JamalUlQuranPage() {
         </div>
       </div>
       <section className={styles.features} aria-label="App features">
-        <article><BookOpen aria-hidden="true" /><h2 lang="ur" dir="rtl">عربی اور بلوچی</h2><p>Arabic Quran text with Balochi translation</p></article>
-        <article><Bookmark aria-hidden="true" /><h2 lang="ur" dir="rtl">اپنی جگہ محفوظ کریں</h2><p>Bookmarks for your reading</p></article>
-        <article><Copy aria-hidden="true" /><h2 lang="ur" dir="rtl">کاپی اور شیئر کریں</h2><p>Share verses and their translation</p></article>
+        <article><BookOpen aria-hidden="true" /><p>Arabic Quran text with Balochi translation</p></article>
+        <article><Bookmark aria-hidden="true" /><p>Bookmarks for your reading</p></article>
+        <article><Copy aria-hidden="true" /><p>Share verses and their translation</p></article>
       </section>
     </main>
     <footer className={styles.footer}><span>Nadvi Publications / <span lang="ur" dir="rtl">مکتبہ ندوی</span></span><Link href="/privacy-policy">Privacy Policy</Link></footer>
