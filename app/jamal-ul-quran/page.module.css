@@ -6,3 +6,5 @@
 .publisher{font-size:14px;font-weight:800;letter-spacing:.5px}.download>span{flex:1;min-width:0;text-align:center}.playLogo{width:34px;height:34px;flex:0 0 34px;object-fit:contain}@media(max-width:800px){.publisher{font-size:13px}}@media(max-width:420px){.playLogo{width:30px;height:30px;flex-basis:30px}}
 
 .features article{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:12px}.features article>svg{display:block;align-self:center;margin:0}.features article>p{text-align:center;margin:0}.download{cursor:pointer}
+
+.appLogo{max-width:385px}@media(max-width:800px){.appLogo{max-width:264px}}@media(max-width:420px){.appLogo{max-width:237px}}

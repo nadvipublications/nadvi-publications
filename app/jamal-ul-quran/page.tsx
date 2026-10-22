@@ -37,7 +37,7 @@ export default function JamalUlQuranPage() {
         <div className={styles.logoPanel}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img className={styles.appLogo} src="/jamal-ul-quran-logo.svg" width="333" height="247" alt="جمال القرآن — Jamal ul Quran" fetchPriority="high" />
-          <span className={styles.publisher}><span lang="en">NADVI PUBLICATIONS</span> · <span lang="ur" dir="rtl">مکتبہ ندوی</span></span>
+          
         </div>
         <div className={styles.copy}>
           <span className={styles.eyebrow}>The Holy Qur&apos;an Translation in Your Own Language</span>
