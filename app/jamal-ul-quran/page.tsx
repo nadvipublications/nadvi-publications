@@ -40,10 +40,10 @@ export default function JamalUlQuranPage() {
           <span className={styles.publisher}>NADVI PUBLICATIONS · مکتبہ ندوی</span>
         </div>
         <div className={styles.copy}>
-          <span className={styles.eyebrow}>THE QURAN, IN YOUR LANGUAGE</span>
-          <h1 lang="ur" dir="rtl">جمال القرآن: بلوچی ترجمہ</h1>
+          <span className={styles.eyebrow}>Holy Qur&apos;an Translation in Your Own Language</span>
+          <h1 lang="bal" dir="rtl">جمال القرآن : بلوچی رجانک</h1>
           <p className={styles.englishName}>{title}</p>
-          <p className={styles.urduIntro} lang="ur" dir="rtl">قرآنِ پاک کا عربی متن اور بلوچی ترجمہ، اب آپ کے موبائل پر۔ اپنی سہولت کے مطابق پڑھیں، ترجمہ دیکھیں اور آیات اپنے عزیزوں کے ساتھ شیئر کریں۔</p>
+          <p className={styles.urduIntro} lang="bal" dir="rtl">پاکیں کلام ءِ آسان ءُ واناکیں بلوچی رجانک ءَ وتی موبائل ءِ سرا بِہ وان اِت<br />اللہ ءِ پاکیں کلام ءَ وتی ماتی زبان ءَ بوان اِت، سرپد بِۃ بئیت، ءُ گوں وتی سیاد ءُ عزیزاں شئیر بِہ کَن اِت</p>
           <p className={styles.englishIntro}>Read the Holy Quran in Arabic with its Balochi translation. A thoughtful reading companion from Nadvi Publications.</p>
           <a className={styles.download} href={playUrl}>
             <Download size={23} aria-hidden="true" />
