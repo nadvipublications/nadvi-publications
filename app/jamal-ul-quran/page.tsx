@@ -40,7 +40,7 @@ export default function JamalUlQuranPage() {
           <span className={styles.publisher}>NADVI PUBLICATIONS · مکتبہ ندوی</span>
         </div>
         <div className={styles.copy}>
-          <span className={styles.eyebrow}>Holy Qur&apos;an Translation in Your Own Language</span>
+          <span className={styles.eyebrow}>The Holy Qur&apos;an Translation in Your Own Language</span>
           <h1 lang="bal" dir="rtl">جمال القرآن : بلوچی رجانک</h1>
           <p className={styles.englishName}>{title}</p>
           <p className={styles.urduIntro} lang="bal" dir="rtl">پاکیں کلام ءِ آسان ءُ واناکیں بلوچی رجانک ءَ وتی موبائل ءِ سرا بِہ وان اِت<br />اللہ ءِ پاکیں کلام ءَ وتی ماتی زبان ءَ بوان اِت، سرپد بِۃ بئیت، ءُ گوں وتی سیاد ءُ عزیزاں شئیر بِہ کَن اِت</p>
