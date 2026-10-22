@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Search, ShoppingBag, Heart, User, Menu, X, ArrowRight, Headphones, BookOpen, ShieldCheck, Download, Star, SlidersHorizontal, Grid2X2, List, ChevronRight, Play, Check, Library, LayoutDashboard, Package, Users, BarChart3, MessageCircle } from "lucide-react";
 import About from "./about";
+import QuranAppLink from "./quran-app-link";
 import InquiryModal from "./inquiry-modal";
 import SubmitBook from "./submit-book";
 
@@ -62,7 +63,7 @@ export default function Storefront(){
     <div className="search" ref={searchRef}><select aria-label="Search category"><option>All books</option><option>eBooks</option><option>Audiobooks</option></select><input value={query} onChange={e=>{setQuery(e.target.value);setSearchOpen(true)}} onFocus={()=>setSearchOpen(true)} onKeyDown={e=>{if(e.key==="Enter"){setSearchOpen(false);go("catalog")}}} placeholder="Search titles, authors, ISBN..."/><button onClick={()=>{setSearchOpen(false);go("catalog")}} aria-label="Search"><Search/></button>{query&&searchOpen&&view!=="catalog"&&<div className="suggestions">{filtered.slice(0,4).map(b=><button key={b.id} onClick={()=>open(b)}><span className="mini-cover" style={{background:b.color}}/><span><b>{b.title}</b><small>{b.author} · {b.format}</small></span></button>)}</div>}</div>
     <div className="header-tools"><select value={lang} onChange={e=>setLang(e.target.value)} aria-label="Interface language"><option>EN</option><option>اردو</option><option>فارسی</option><option>بلوچی</option></select><select aria-label="Currency"><option>USD</option><option>AED</option><option>GBP</option><option>EUR</option><option>PKR</option></select><button onClick={()=>go("account")}><User/><small>Account</small></button><button onClick={()=>go("library")}><Library/><small>Library</small></button></div>
    </div>
-   <nav className={menu?"open":""}><button className="nav-close" onClick={()=>setMenu(false)}><X/></button>{["Home","All Books","Balochi","Urdu","Persian","Arabic","English","eBooks","Audiobooks","New Releases","Best Sellers","Free Books","Authors","Submit a Book"].map(x=><button key={x} onClick={()=>go(x==="Home"?"home":x==="All Books"?"catalog":x.toLowerCase().replaceAll(" ","-"))}>{x}</button>)}</nav>
+   <nav className={menu?"open":""}><button className="nav-close" onClick={()=>setMenu(false)}><X/></button>{["Home","All Books","Balochi","Urdu","Persian","Arabic","English","eBooks","Audiobooks","New Releases","Best Sellers","Free Books","Authors","Submit a Book"].map(x=><button key={x} onClick={()=>go(x==="Home"?"home":x==="All Books"?"catalog":x.toLowerCase().replaceAll(" ","-"))}>{x}</button>)}<Link href="/jamal-ul-quran">Quran App</Link></nav>
   </header>
   <main id="main">{view==="home"?<Home books={books} open={open} add={add} go={go}/>:view==="product"?<Product book={selected} add={add} open={open}/>:view==="cart"?<Cart cart={cart} setCart={setCart} go={go}/>:view==="library"?<LibraryView books={cart} open={open}/>:view==="account"?<Account go={go}/>:view==="about-us"?<About/>:view==="submit-a-book"?<SubmitBook/>:view==="admin"?<Admin/>:<Catalog title={view} books={catalogBooks} query={query} setQuery={setQuery} open={open} add={add}/>}</main>
   <Footer go={go}/>{menu&&<button className="scrim" onClick={()=>setMenu(false)} aria-label="Close menu"/>}{inquiry&&<InquiryModal book={inquiry} onClose={()=>setInquiry(null)}/>}
@@ -80,6 +81,7 @@ function LanguageHero({language,go,catalog=false}:{language:HeroLanguage;go?:(v:
 
 function Home({books,open,add,go}:{books:Book[];open:(b:Book)=>void;add:(b:Book)=>void;go:(v:string)=>void}){return <>
  <LanguageHero language="Balochi" go={go}/>
+ <QuranAppLink/>
  <Shelf title="Editor's selection" eyebrow="FEATURED BOOKS" books={books.slice(0,5)} open={open} add={add} go={go}/>
  <section className="quote-band"><blockquote>“A language carries more than words. It carries the memory of a people.”</blockquote><p>Our publishing programme brings essential scholarship and beautiful storytelling to readers everywhere.</p></section>
  <Shelf title="New Releases" eyebrow="" books={books.filter(b=>b.badge==="NEW").slice(0,5)} open={open} add={add} go={go}/>
