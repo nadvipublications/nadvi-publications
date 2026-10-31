@@ -1,2 +1,5 @@
 import type { MetadataRoute } from "next";
-export default function sitemap():MetadataRoute.Sitemap{const base="https://www.nadvipublications.online";return ["","/jamal-ul-quran","/books","/books/english","/books/urdu","/books/balochi","/books/persian","/ebooks","/audiobooks","/authors","/about","/contact","/faq"].map((path)=>({url:base+path,lastModified:new Date(),changeFrequency:path?"weekly":"daily",priority:path?.startsWith("/books")?.8:1}))}
+import { publicPages, siteOrigin } from "./public-pages";
+export default function sitemap(): MetadataRoute.Sitemap {
+  return [...publicPages.map(page => page.path), "/jamal-ul-quran", "/privacy-policy"].map(path => ({url: siteOrigin + path, priority: path === "/" ? 1 : 0.7}));
+}
